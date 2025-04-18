@@ -47,5 +47,19 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("test", [TestController::class, "test"]);
 
+//crud category
+
 Route::get("categories", [CategoryController::class, "allCategory"]);
-Route::get("categories/{id}", [CategoryController::class, "show"]);
+Route::get("categories/show/{id}", [CategoryController::class, "show"]);
+
+
+//create category 2 route -> 1 to the form  2 to insert
+Route::get("categories/create", [CategoryController::class, "create"]);
+Route::post("categories", [CategoryController::class, "store"]);
+
+//update
+Route::get("categories/edite/{id}", [CategoryController::class, "edite"]);
+Route::put("categories/update/{id}", [CategoryController::class, "update"]);
+
+
+Route::delete("categories/delete/{id}", [CategoryController::class, "delete"]);

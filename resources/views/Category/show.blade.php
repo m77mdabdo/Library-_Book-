@@ -9,5 +9,14 @@
 <body>
   CategoryName :  {{ $category->name }} <br>
   categoryDescription :   {{ $category->desc }} <hr>
+  <a href="{{ url("categories/edite/$category->id") }}">edite</a>
+
+  <form action="{{ url("categories/delete/$category->id") }}" method="POST">
+@csrf
+@method("DELETE")
+<button type="submit">delete</button>
+
+</form>
+
 </body>
 </html>

@@ -9,7 +9,7 @@
 <body>
 @foreach ($categories as $category )
 
-{{ $category->name }} <br>
+{{$loop->iteration}} - <a href={{ url("categories/show/$category->id") }}>{{ $category->name }}</a>  <br>
 {{ $category->desc }} <hr>
 
 @endforeach
