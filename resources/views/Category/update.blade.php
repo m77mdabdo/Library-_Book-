@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layout')
+
+@section('titel')
+    update categories
+@endsection
+
+@section('css')
+
+@endsection
+
+@section('content')
+
+
     @if($errors->any())
 
     @foreach ($errors->all() as $error )
@@ -16,12 +20,19 @@
 
     @endif
 
-    <form action="{{ url("categories/update/$category->id") }}" method="POST">
+    <div class="container w-50" >
+    <form action="{{ route("updateCategory",$category->id) }}" method="POST">
           @csrf
           @method('PUT')
-        <input type="text" name="name" id="" value="{{ $category->name }}"> <br>
-        <textarea name="desc" id="" >value="{{ $category->desc }}"</textarea> <br>
+        <input type="text" name="name" id="" class="form-control " rows="10" value="{{ $category->name }}"> <br>
+        <textarea name="desc" id="" cols="30" class="form-control " rows="10" >value="{{ $category->desc }}"</textarea> <br>
 
-        <button type="submit" >update</button>
-</body>
-</html>
+        <button type="submit" class="btn btn-info">update</button>
+
+
+        @endsection
+    </div>
+        @section('js')
+
+        @endsection
+

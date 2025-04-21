@@ -1,22 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layout')
+
+@section('titel')
+show categories
+
+@endsection
+
+
+@section('css')
+
+@endsection
+
+
+@section('content')
+
+
+    @if(session()->has("success"))
+    <alert class="alert success">{{ session()->get("success") }}</alert> <br>
+
+    @endif
   CategoryName :  {{ $category->name }} <br>
   categoryDescription :   {{ $category->desc }} <hr>
-  <a href="{{ url("categories/edite/$category->id") }}">edite</a>
+  <a class="btn btn-info" href="{{ route("editeCategory",$category->id) }}">edite</a>
 
   <form action="{{ url("categories/delete/$category->id") }}" method="POST">
 @csrf
 @method("DELETE")
-<button type="submit">delete</button>
+<button type="submit" class="btn btn-danger">delete</button>
 
 </form>
+@endsection
 
-</body>
-</html>
+
+@section('js')
+
+@endsection
