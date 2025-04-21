@@ -9,9 +9,13 @@ class CategoryController extends Controller
 {
 
     // selecte all from category
+
+    //pagination (1- all ,get ->paginate() , 2-view $categories->links(),
+    //3- providers (app boot (paginator::use)) )
     public function allCategory()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
+        $categories = Category::paginate(2);
         return view("Category.all", compact("categories"));
     }
 
@@ -24,6 +28,7 @@ class CategoryController extends Controller
 
     public function create()
     {
+        //
         return view("Category.create ");
     }
 
@@ -38,16 +43,25 @@ class CategoryController extends Controller
         ]);
 
         //store in data base
-
         Category::create([
             "name" => $request->name,
             "desc" => $request->desc,
 
         ]);
 
+        //session successfuly (put , flash ) ;
+
+        // session()->put("success", "data insert successfuly"); // not unset in session
+        session()->flash("success", "data insert successfuly"); //-> unset in sesssion
+
+
+
         //redricr
-        $category = Category::all();
-        return view("Category.all", ["category" => $category]);
+        //1-
+        $categories = Category::all();
+        return view("Category.all", ["categories" => $categories]);
+        //2- route all
+        //3-method in action
     }
 
     public function edite($id)
@@ -68,12 +82,21 @@ class CategoryController extends Controller
             "desc" => "required| string",
         ]);
 
+        //update date
         $category =  Category::findOrFail($id);
         $category->update([
             "name" => $request->name,
             "desc" => $request->desc,
         ]);
-        return view("Category.show", compact("category"));
+
+        // session()->put("success", "data update successfuly ");
+        session()->flash("success", "data update successfuly");
+
+        //view
+        // return view("Category.show", compact("category"));
+        //route
+        // return redirect(route("showCategory", $id));
+        return redirect(url("showCategory/$id"));
     }
 
 
@@ -84,6 +107,10 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         $categories = Category::all();
+
+        //  session()->put("success", "data delete  successfuly ");
+        session()->flash("success", "data delete  successfuly");
+
         return view("Category.all", ["categories" => $categories]);
     }
 }

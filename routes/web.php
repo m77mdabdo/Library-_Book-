@@ -47,19 +47,41 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("test", [TestController::class, "test"]);
 
+
+
 //crud category
 
-Route::get("categories", [CategoryController::class, "allCategory"]);
-Route::get("categories/show/{id}", [CategoryController::class, "show"]);
+// Route::get("categories", [CategoryController::class, "allCategory"]);
+// Route::get("categories/show/{id}", [CategoryController::class, "show"]);
 
 
-//create category 2 route -> 1 to the form  2 to insert
-Route::get("categories/create", [CategoryController::class, "create"]);
-Route::post("categories", [CategoryController::class, "store"]);
+// //create category 2 route -> 1 to the form  2 to insert
+// Route::get("categories/create", [CategoryController::class, "create"]);
+// Route::post("categories", [CategoryController::class, "store"]);
 
-//update
-Route::get("categories/edite/{id}", [CategoryController::class, "edite"]);
-Route::put("categories/update/{id}", [CategoryController::class, "update"]);
+// //update
+// Route::get("categories/edite/{id}", [CategoryController::class, "edite"]);
+// Route::put("categories/update/{id}", [CategoryController::class, "update"]);
 
 
-Route::delete("categories/delete/{id}", [CategoryController::class, "delete"]);
+// Route::delete("categories/delete/{id}", [CategoryController::class, "delete"]);
+
+
+//gorup category
+
+Route::controller(CategoryController::class)->group(function () {
+    Route::get("categories", "allCategory")->name("allCategory");
+    Route::get("categories/show/{id}", "show")->name("showCategory");
+
+
+    //create category 2 route -> 1 to the form  2 to insert
+    Route::get("categories/create", "create")->name("creatCategory");
+    Route::post("categories", "store")->name("storeCategory");
+
+    //update
+    Route::get("categories/edite/{id}", "edite")->name("editeCategory");
+    Route::put("categories/update/{id}", "update")->name("updateCategory");
+
+    //delete
+    Route::delete("categories/delete/{id}", "delete")->name("deleteCategory");
+});
