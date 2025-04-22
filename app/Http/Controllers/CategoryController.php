@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -14,9 +16,10 @@ class CategoryController extends Controller
     //3- providers (app boot (paginator::use)) )
     public function allCategory()
     {
-        // $categories = Category::all();
+        $categories = Category::all();
         $categories = Category::paginate(2);
         return view("Category.all", compact("categories"));
+        // return redirect(route("allCategory"));
     }
 
     // selecte one from category frome id =  find()
@@ -24,12 +27,14 @@ class CategoryController extends Controller
     {
         $category =  Category::find($id);
         return view("Category.show", compact("category"));
+        // return redirect(route("showCategory", $id));
     }
 
     public function create()
     {
         //
         return view("Category.create ");
+        // return redirect(route("createCategory"));
     }
 
     public function store(Request $request)
@@ -40,12 +45,17 @@ class CategoryController extends Controller
         $data = $request->validate([
             "name" => 'required|string|max:255',
             "desc" => "required|string",
+            "image" => "required|image |mimes:png,jpg,gif,jpeg"
+
         ]);
 
+        //store in in image
+        $newName = Storage::putFile("categories", $request->image);
         //store in data base
         Category::create([
             "name" => $request->name,
             "desc" => $request->desc,
+            "image" => $newName,
 
         ]);
 
@@ -58,9 +68,11 @@ class CategoryController extends Controller
 
         //redricr
         //1-
-        $categories = Category::all();
-        return view("Category.all", ["categories" => $categories]);
+        // $categories = Category::all();
+        // return view("Category.all", ["categories" => $categories]);
         //2- route all
+
+        return redirect(url("categories"));
         //3-method in action
     }
 
@@ -68,6 +80,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         return view("Category.update ", ["category" => $category]);
+        // return redirect(route("updateCategory", $id));
     }
 
     public function update($id, Request $request)
@@ -80,23 +93,38 @@ class CategoryController extends Controller
 
             "name" => "required|string|max:200",
             "desc" => "required| string",
+            "image" => "image|mimes:png,jpg,gif,jpeg,"
         ]);
 
         //update date
         $category =  Category::findOrFail($id);
+
+        if ($request->has("image")) {
+
+            //delete old image
+            Storage::delete($category->image);
+            //uplouad new image
+            $newImage = Storage::putFile("categories", $request->image);
+        } else {
+
+            $newImage['image'] = $request->image;
+        }
+
+
         $category->update([
             "name" => $request->name,
             "desc" => $request->desc,
+            "image" => $newImage,
         ]);
 
         // session()->put("success", "data update successfuly ");
         session()->flash("success", "data update successfuly");
 
         //view
-        // return view("Category.show", compact("category"));
-        //route
+        return view("Category.show", compact("category"));
+        // //route
         // return redirect(route("showCategory", $id));
-        return redirect(url("showCategory/$id"));
+        // return redirect(url("categories/show/$id"));
     }
 
 
@@ -105,12 +133,14 @@ class CategoryController extends Controller
     public function delete($id)
     {
         $category = Category::findOrFail($id);
+        Storage::delete($category->image);
         $category->delete();
-        $categories = Category::all();
+        // $categories = Category::all();
 
         //  session()->put("success", "data delete  successfuly ");
         session()->flash("success", "data delete  successfuly");
 
-        return view("Category.all", ["categories" => $categories]);
+        // return view("Category.all", ["categories" => $categories]);
+        return  redirect(route("allCategory"));
     }
 }

@@ -24,10 +24,12 @@ create categories
 
     @endif
 
-    <form action="{{ route("storeCategory") }}" method="POST">
+    <form action="{{ route("storeCategory") }}" method="POST" enctype="multipart/form-data">
           @csrf
         <input type="text" name="name" id=""> <br>
         <textarea name="desc" id=""></textarea> <br>
+
+        <input type="file" name="image" id="">
 
         <button type="submit" >create</button>
 

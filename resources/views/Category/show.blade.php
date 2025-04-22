@@ -20,6 +20,7 @@ show categories
     @endif
   CategoryName :  {{ $category->name }} <br>
   categoryDescription :   {{ $category->desc }} <hr>
+   Image : <img src="{{ asset("storage/$category->image") }}" width="200px" alt="" srcset="">
   <a class="btn btn-info" href="{{ route("editeCategory",$category->id) }}">edite</a>
 
   <form action="{{ url("categories/delete/$category->id") }}" method="POST">
