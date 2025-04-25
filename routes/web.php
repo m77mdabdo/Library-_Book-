@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BOOKController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TestController;
@@ -84,4 +85,26 @@ Route::controller(CategoryController::class)->group(function () {
 
     //delete
     Route::delete("categories/delete/{id}", "delete")->name("deleteCategory");
+});
+
+
+//BOOK
+
+Route::controller(BOOKController::class)->group(function () {
+    Route::get("books", "allbook")->name("allbook");
+    Route::get("books/show/{id}", "show")->name("showBook");
+
+
+    //create
+    Route::get("books/create", "create")->name("createBook");
+    Route::post("book", "store")->name("storeBook");
+
+
+    //update
+    Route::get("books/edite/{id}", "edite")->name("editeBook");
+    Route::put("books/update/{id}", "update")->name("updateBook");
+
+    //delete
+
+    Route::delete("books/delete/{id}", "delete")->name("deleteBook");
 });
