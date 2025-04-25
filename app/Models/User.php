@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function books()
+    {
+        return $this->hasMany(BOOK::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -32,6 +37,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
 
     /**
      * Get the attributes that should be cast.
