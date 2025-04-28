@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BOOKController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
@@ -107,4 +108,23 @@ Route::controller(BOOKController::class)->group(function () {
     //delete
 
     Route::delete("books/delete/{id}", "delete")->name("deleteBook");
+});
+
+
+//auth register login logout
+
+Route::controller(AuthController::class)->group(function () {
+
+    //register
+
+    Route::get("register", "registerForm")->name("registerForm");
+    Route::post("register", "register")->name("handelRegister");
+
+    //login
+    Route::get("login", "loginForm")->name("loginForm");
+    Route::post("login", "login")->name("handelLogin");
+
+    //logout form
+
+    Route::post("logout", "logout")->name("logout");
 });

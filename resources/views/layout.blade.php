@@ -10,7 +10,21 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="{{ url("register") }}">Register</a></li>
+        <li><a href="{{ url("login") }}">Login</a><</li>
+        <li>
 
+            <form action="{{ url("logout") }}" method="post"></form>
+
+            @csrf
+            <button type="submit" class="btn btn-danger">logout</button>
+
+
+        </li>
+    </ul>
+</nav>
 
 @yield(
     'content'
