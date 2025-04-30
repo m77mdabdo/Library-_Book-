@@ -11,18 +11,32 @@
 </head>
 <body>
 <nav>
+
     <ul>
+        @guest
+
+
         <li><a href="{{ url("register") }}">Register</a></li>
         <li><a href="{{ url("login") }}">Login</a><</li>
+
+        @endguest
+
+        @auth
+
+
         <li>
 
-            <form action="{{ url("logout") }}" method="post"></form>
+            <form action="{{ url("logout") }}" method="post">
 
-            @csrf
-            <button type="submit" class="btn btn-danger">logout</button>
+                @csrf
+                <button type="submit" class="btn btn-danger">logout</button>
+            </form>
+
+
 
 
         </li>
+        @endauth
     </ul>
 </nav>
 

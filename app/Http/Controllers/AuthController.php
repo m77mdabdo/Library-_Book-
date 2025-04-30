@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function Laravel\Prompts\select;
 
 class AuthController extends Controller
 {
@@ -59,15 +60,28 @@ class AuthController extends Controller
         ]);
 
         $valid =   Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        $user =  User::where("email", $request->email)->get();
+
 
         if ($valid) {
-            session()->flash("sucess", "welcome");
+            $user =  User::select("name")->where("email", $request->email)->first();
+
+            session()->flash("sucess", "welcome $user->name");
             return redirect(url("books"));
         } else {
             return redirect(url("login"));
         }
     }
 
-    // publi
+    public function logout()
+    {
+        Auth::logout();
+        return redirect(url("login"));
+    }
+
+    public function allUsers()
+    {
+
+        $users = User::all();
+        dd($users);
+    }
 }

@@ -72,20 +72,24 @@ use Illuminate\Support\Facades\Route;
 //gorup category
 
 Route::controller(CategoryController::class)->group(function () {
-    Route::get("categories", "allCategory")->name("allCategory");
+    Route::get("categories", "allCategory")->name("allCategory")->middleware('auth', 'guest');
     Route::get("categories/show/{id}", "show")->name("showCategory");
 
 
-    //create category 2 route -> 1 to the form  2 to insert
-    Route::get("categories/create", "create")->name("creatCategory");
-    Route::post("categories", "store")->name("storeCategory");
+    Route::middleware('auth')->group(function () {
 
-    //update
-    Route::get("categories/edite/{id}", "edite")->name("editeCategory");
-    Route::put("categories/update/{id}", "update")->name("updateCategory");
 
-    //delete
-    Route::delete("categories/delete/{id}", "delete")->name("deleteCategory");
+        //create category 2 route -> 1 to the form  2 to insert
+        Route::get("categories/create", "create")->name("creatCategory");
+        Route::post("categories", "store")->name("storeCategory");
+
+        //update
+        Route::get("categories/edite/{id}", "edite")->name("editeCategory");
+        Route::put("categories/update/{id}", "update")->name("updateCategory");
+
+        //delete
+        Route::delete("categories/delete/{id}", "delete")->name("deleteCategory");
+    });
 });
 
 
@@ -96,18 +100,22 @@ Route::controller(BOOKController::class)->group(function () {
     Route::get("books/show/{id}", "show")->name("showBook");
 
 
-    //create
-    Route::get("books/create", "create")->name("createBook");
-    Route::post("book", "store")->name("storeBook");
+    Route::middleware('auth')->group(function () {
 
 
-    //update
-    Route::get("books/edite/{id}", "edite")->name("editeBook");
-    Route::put("books/update/{id}", "update")->name("updateBook");
+        //create
+        Route::get("books/create", "create")->name("createBook");
+        Route::post("book", "store")->name("storeBook");
 
-    //delete
 
-    Route::delete("books/delete/{id}", "delete")->name("deleteBook");
+        //update
+        Route::get("books/edite/{id}", "edite")->name("editeBook");
+        Route::put("books/update/{id}", "update")->name("updateBook");
+
+        //delete
+
+        Route::delete("books/delete/{id}", "delete")->name("deleteBook");
+    });
 });
 
 
@@ -117,14 +125,17 @@ Route::controller(AuthController::class)->group(function () {
 
     //register
 
-    Route::get("register", "registerForm")->name("registerForm");
+    Route::get("register", "registerForm")->name("register");
     Route::post("register", "register")->name("handelRegister");
 
     //login
-    Route::get("login", "loginForm")->name("loginForm");
+    Route::get("login", "loginForm")->name("login");
     Route::post("login", "login")->name("handelLogin");
 
     //logout form
 
     Route::post("logout", "logout")->name("logout");
+
+
+    Route::get("allUsers", "allUsers")->middleware('isAdmin');
 });
