@@ -45,9 +45,3 @@ For feedback or support:
 
 📝 License
 This project is free and open-source for personal or educational use. Commercial use requires attribution.
-
-
-نسخ
-تحرير
-
-
